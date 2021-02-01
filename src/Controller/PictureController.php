@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+
 
 class PictureController extends AbstractController
 {
@@ -39,11 +39,15 @@ class PictureController extends AbstractController
 
         //les données du form sont là (s'il a été soumis)
         $data = $searchForm->getData();
+        $orderBy = [];
+
+        if (isset($data['orderBy']) && $data['orderBy'] !== null) {
+            $orderBy[$data['orderBy']] = 'DESC';
+        }
 
         $pictures = $this->pictureRepository->findPictureByTagName(
-            $data ?
-                (string) $data['keyword'] :
-                null
+            $data ? (string) $data['keyword'] : null,
+            $orderBy
         );
 
         return $this->render('picture/home.html.twig', [
@@ -65,4 +69,6 @@ class PictureController extends AbstractController
             'picture' => $picture
         ]);
     }
+
+
 }

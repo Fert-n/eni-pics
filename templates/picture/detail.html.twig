@@ -14,7 +14,14 @@
             <div>{{ picture.description }}</div>
         </div>
 
+        <div>
+
+            {% for tag in picture.tags %}
+                <a href="{{ path('tag_picture', {id : tag.id}) }}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
     </div>
+
 {% endblock %}
 
 {% block title %}

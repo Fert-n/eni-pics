@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="pic-list">
+
+    {% for picture in tag.pictures %}
+        <a href="{{ path('picture_detail', {id : picture.id}) }}" title="view pic tag">
+
+            <img src="{{ picture.smallUrl }}" class="pic" alt="{{ picture.title }}">
+
+        </a>
+    {% endfor %}
+
+    </section>
+
+{% endblock %}
+
+{% block title %}
+    {{ tag.name }}
+
+{% endblock %}

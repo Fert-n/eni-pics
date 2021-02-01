@@ -33,13 +33,19 @@ class SearchPictureType extends AbstractType
             //champ de recherche par mot-clé
             ->add('keyword', SearchType::class, [
                 'label' => 'Search',
+                'required' => false
+            ])
+            ->add('orderBy', ChoiceType::class, [
+                'choices' => [
+                    'Downloads' => 'downloads',
+                    'Likes' => 'likes',
+                    'Created at' => 'createdAt',
+                ]
             ])
             ->add('submit', SubmitType::class, ['label' => 'GO'])
 
-
             //les form de recherche sont en GET !
-            ->setMethod("GET")
-        ;
+            ->setMethod("GET");
     }
 
     public function configureOptions(OptionsResolver $resolver)
