@@ -44,7 +44,7 @@ class ImportDataCommand extends Command
 
         $connection = $this->entityManager->getConnection();
 
-        $sqlFile = $this->appKernel->getProjectDir() . DIRECTORY_SEPARATOR . "eni_pics.sql";
+        $sqlFile = $this->appKernel->getProjectDir() . DIRECTORY_SEPARATOR . "leni_pics.sql";
 
         if (!file_exists($sqlFile)){
             $io->error('Le fichier .sql n\'existe pas à ' . $sqlFile);

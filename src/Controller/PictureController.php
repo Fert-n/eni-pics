@@ -8,14 +8,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class PictureController extends AbstractController
 {
     /**
+     * @var PictureRepository
+     */
+    private $pictureRepository;
+
+    /**
+     * PictureController constructor.
+     */
+    public function __construct(PictureRepository $pictureRepository)
+    {
+        $this->pictureRepository = $pictureRepository;
+    }
+
+    /**
      * Affiche la liste des photos et le formulaire de recherche
      * @Route("/", name="picture_home")
      */
-    public function home(PictureRepository $pictureRepository, Request $request): Response
+    public function home(Request $request): Response
     {
         //crée une instance du formulaire de recherche (il n'est pas associé à une entité)
         $searchForm = $this->createForm(SearchPictureType::class);
@@ -25,10 +39,12 @@ class PictureController extends AbstractController
 
         //les données du form sont là (s'il a été soumis)
         $data = $searchForm->getData();
-        dump($data);
 
-        //récupère les photos (limit à 30 ici)
-        $pictures = $pictureRepository->findBy([], [], 30);
+        if ($data) {
+            $pictures = $this->pictureRepository->findPictureByTagName((string) $data['keyword']);
+        } else {
+            $pictures = $this->pictureRepository->findBy([], [], 30);
+        }
 
         return $this->render('picture/home.html.twig', [
             'pictures' => $pictures,
@@ -40,10 +56,10 @@ class PictureController extends AbstractController
      * Affiche le détail d'une photo
      * @Route("/details/{id}", name="picture_detail")
      */
-    public function detail(int $id, PictureRepository $pictureRepository): Response
+    public function detail(int $id): Response
     {
         //récupère la photo dont l'id est dans l'URL
-        $picture = $pictureRepository->find($id);
+        $picture = $this->pictureRepository->find($id);
 
         return $this->render('picture/detail.html.twig', [
             'picture' => $picture

@@ -22,19 +22,20 @@ class PictureRepository extends ServiceEntityRepository
     // /**
     //  * @return Picture[] Returns an array of Picture objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findPictureByTagName(string $value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('p.tags','t')
+            ->andWhere('t.name = :name')
+            ->setParameters([
+                'name' => $value
+            ])
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Picture
