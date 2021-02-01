@@ -23,8 +23,12 @@ class PictureRepository extends ServiceEntityRepository
     //  * @return Picture[] Returns an array of Picture objects
     //  */
 
-    public function findPictureByTagName(string $value)
+    public function findPictureByTagName(?string $value)
     {
+        if (!$value) {
+            return $this->findAll();
+        }
+
         return $this->createQueryBuilder('p')
             ->join('p.tags','t')
             ->andWhere('t.name = :name')

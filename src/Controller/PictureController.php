@@ -40,11 +40,11 @@ class PictureController extends AbstractController
         //les données du form sont là (s'il a été soumis)
         $data = $searchForm->getData();
 
-        if ($data) {
-            $pictures = $this->pictureRepository->findPictureByTagName((string) $data['keyword']);
-        } else {
-            $pictures = $this->pictureRepository->findBy([], [], 30);
-        }
+        $pictures = $this->pictureRepository->findPictureByTagName(
+            $data ?
+                (string) $data['keyword'] :
+                null
+        );
 
         return $this->render('picture/home.html.twig', [
             'pictures' => $pictures,

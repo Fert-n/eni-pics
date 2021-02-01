@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Picture;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,6 +35,7 @@ class SearchPictureType extends AbstractType
                 'label' => 'Search',
             ])
             ->add('submit', SubmitType::class, ['label' => 'GO'])
+
 
             //les form de recherche sont en GET !
             ->setMethod("GET")
